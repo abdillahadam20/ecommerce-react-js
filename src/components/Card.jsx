@@ -1,26 +1,17 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 const Card = () => {
   const [products, setProducts] = useState([]);
   const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found");
-        return;
-      }
-
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/products`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          `${import.meta.env.VITE_BASE_URL}/products`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -40,6 +31,12 @@ const Card = () => {
   }, []);
 
   const handleAddToCart = (product) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please log in to add products to the cart.");
+      navigate("/login");
+      return;
+    }
     addToCart({ ...product, quantity: 1 });
   };
 
@@ -53,7 +50,7 @@ const Card = () => {
           >
             <div className="relative">
               <img
-                src={product.image_url}
+                src={`https://ecommerce-express-js.onrender.com${product.image_url}`}
                 alt={product.name}
                 className="w-full h-48 object-cover rounded-t-lg"
               />
@@ -70,7 +67,7 @@ const Card = () => {
                   {product.name}
                 </h3>
                 <span className="text-sm font-medium text-gray-500">
-                  {product.category.name}
+                  {product.category ? product.category.name : "No Category"}
                 </span>
               </div>
 
