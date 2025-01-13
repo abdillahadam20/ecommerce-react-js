@@ -10,7 +10,6 @@ const NavMenu = () => {
   const { cartItems } = useContext(CartContext);
 
   useEffect(() => {
-    // Check if the user is logged in by checking the presence of a token in local storage
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
@@ -30,13 +29,8 @@ const NavMenu = () => {
           to="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-8"
-            alt="Flowbite Logo"
-          />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Flowbite
+            E-Commerce Mini
           </span>
         </Link>
         <div className="flex gap-4 items-center md:order-2 space-x-1 md:space-x-2 rtl:space-x-reverse">

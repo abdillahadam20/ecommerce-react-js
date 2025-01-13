@@ -60,7 +60,6 @@ const ProcessOrder = () => {
         orderItems,
       };
 
-      // Process the order
       const orderResponse = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/orders`,
         payload,
@@ -72,9 +71,7 @@ const ProcessOrder = () => {
       );
 
       console.log("Order processed successfully:", orderResponse.data);
-      // Clear the cart
       clearCart();
-      // Redirect to a confirmation page or payment page
       navigate("/confirmation");
     } catch (error) {
       console.error(

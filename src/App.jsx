@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Card from "./components/Card";
@@ -14,20 +16,41 @@ import ProcessOrder from "./components/ProcessOrder";
 import { CartProvider } from "./context/CartContext";
 
 function App() {
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/products");
+        if (response.data && Array.isArray(response.data.products)) {
+          setProducts(response.data.products);
+          setFilteredProducts(response.data.products);
+        } else {
+          console.error("Invalid API response:", response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <CartProvider>
       <NavMenu />
       <Routes>
+        <Route path="/" element={<Hero />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/delivery" element={<Delivery />} />
         <Route path="/process-order" element={<ProcessOrder />} />
       </Routes>
-      <Hero />
       <main className="max-w-screen-xl mx-auto px-4 py-8">
-        <Filter />
-        <Card />
+        <Filter products={products} setFilteredProducts={setFilteredProducts} />
+        <Card filteredProducts={filteredProducts} />
       </main>
       <NewsLetter />
       <Footer />

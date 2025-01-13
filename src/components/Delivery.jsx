@@ -12,6 +12,8 @@ const DeliveryAddress = () => {
   const [detail, setDetail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [deliveryAddressId, setDeliveryAddressId] = useState(null);
+  const [deliveryPayload, setDeliveryPayload] = useState(null);
+  const [orderPayload, setOrderPayload] = useState(null);
   const navigate = useNavigate();
   const { cartItems, clearCart } = useContext(CartContext);
 
@@ -45,8 +47,8 @@ const DeliveryAddress = () => {
         }
       );
 
-      console.log("Response from delivery API:", response.data); // Debug response
-      const addressId = response.data.data._id; // Ambil ID dari respons
+      console.log("Response from delivery API:", response.data);
+      const addressId = response.data.data._id;
       setDeliveryAddressId(addressId);
       setSubmitted(true);
     } catch (error) {
@@ -254,6 +256,14 @@ const DeliveryAddress = () => {
                 >
                   Process to Order
                 </button>
+                {/* <div className="mt-4">
+                  <h3 className="text-lg font-semibold">Delivery Payload</h3>
+                  <pre>{JSON.stringify(deliveryPayload, null, 2)}</pre>
+                </div>
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold">Order Payload</h3>
+                  <pre>{JSON.stringify(orderPayload, null, 2)}</pre>
+                </div> */}
               </div>
             )}
           </div>

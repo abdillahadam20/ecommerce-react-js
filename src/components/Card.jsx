@@ -1,34 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
-const Card = () => {
-  const [products, setProducts] = useState([]);
+const Card = ({ filteredProducts }) => {
   const { addToCart } = useContext(CartContext);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/products`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        if (Array.isArray(data.products)) {
-          setProducts(data.products);
-        } else {
-          console.error("Fetched data is not an array:", data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
 
   const handleAddToCart = (product) => {
     const token = localStorage.getItem("token");
@@ -42,15 +18,15 @@ const Card = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {Array.isArray(products) &&
-        products.map((product) => (
+      {Array.isArray(filteredProducts) &&
+        filteredProducts.map((product) => (
           <div
             key={product._id}
             className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="relative">
               <img
-                src={`https://ecommerce-express-js.onrender.com${product.image_url}`}
+                src={`http://localhost:3000${product.image_url}`}
                 alt={product.name}
                 className="w-full h-48 object-cover rounded-t-lg"
               />
@@ -76,7 +52,7 @@ const Card = () => {
               </p>
 
               <div className="text-lg font-semibold text-gray-900 mb-2">
-                Rp {product.price}
+                Rp {product.price.toLocaleString()}
               </div>
 
               <button
