@@ -1,9 +1,11 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const calculateTotal = () => {
     return cartItems.reduce(
@@ -12,10 +14,13 @@ const Cart = () => {
     );
   };
 
+  const handleCheckout = () => {
+    navigate("/delivery");
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
-      {/* <pre>{JSON.stringify(cartItems, null, 2)}</pre> */}
       {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
@@ -28,7 +33,7 @@ const Cart = () => {
               >
                 <div className="flex items-center space-x-4">
                   <img
-                    src={item.image_url}
+                    src={`https://ecommerce-express-js.onrender.com${item.image_url}`}
                     alt={item.name}
                     className="w-16 h-16 object-cover rounded-lg"
                   />
@@ -87,7 +92,10 @@ const Cart = () => {
             </div>
 
             {/* Checkout Button */}
-            <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 transition-colors">
+            <button
+              onClick={handleCheckout}
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 transition-colors"
+            >
               Proceed to Checkout
             </button>
           </div>
