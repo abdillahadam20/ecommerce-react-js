@@ -33,7 +33,7 @@ const Cart = () => {
               >
                 <div className="flex items-center space-x-4">
                   <img
-                    src={`https://ecommerce-express-js.onrender.com${item.image_url}`}
+                    src={`http://localhost:3000${item.image_url}`}
                     alt={item.name}
                     className="w-16 h-16 object-cover rounded-lg"
                   />
@@ -42,7 +42,7 @@ const Cart = () => {
                     <p className="text-sm text-gray-500">
                       {item.category.name}
                     </p>
-                    <p className="text-sm text-gray-500">${item.price}</p>
+                    <p className="text-sm text-gray-500">Rp {item.price}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">

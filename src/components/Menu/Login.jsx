@@ -13,13 +13,10 @@ const Login = () => {
         `${import.meta.env.VITE_BASE_URL}/auth/login`,
         { email, password }
       );
-      // Handle successful login
       console.log("Login successful:", response.data);
       localStorage.setItem("token", response.data.token);
-      // Redirect to the dashboard or home page
       window.location.href = "/dashboard";
     } catch (error) {
-      // Handle login error
       console.error("Login failed:", error);
       alert("Login failed. Please check your credentials and try again.");
     }

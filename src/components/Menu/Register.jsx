@@ -10,7 +10,6 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Simulate auto-generation of customer_id
     const customerId = Math.floor(Math.random() * 100000);
 
     try {
@@ -18,13 +17,10 @@ const Register = () => {
         `${import.meta.env.VITE_BASE_URL}/auth/register`,
         { full_name: fullName, customer_id: customerId, email, password, role }
       );
-      // Handle successful registration
       console.log("Registration successful:", response.data);
       alert("Registration successful. Please log in.");
-      // Redirect to the login page
       window.location.href = "/login";
     } catch (error) {
-      // Handle registration error
       console.error("Registration failed:", error);
       alert("Registration failed. Please try again.");
     }
